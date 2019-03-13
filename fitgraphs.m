@@ -119,25 +119,26 @@ detrendrt3=detrend(avert3);
 
 
 figure;
-plot(t/1000,avert1,'LineWidth',4, 'color','b')
+scatter(interstim1,rt1, 36, 'b')
 title('Weighted Gaussian Average and Scatter Plot')
 xlabel('Cue-Time Interval (s)')
 ylabel('Reaction Time (s)')
 xlim([.4 1])
 hold on
-scatter(interstim1,rt1, 36, 'b')
 scatter(interstim2,rt2, 36, 'r')
 scatter(interstim3,rt3, 36, 'k')
 %xticks([.3 .35 .4 .45 .5 .55 .6 .65 .7 .75 .8 .85 .9 .95 1])
 %xticklabels({'.30','','.40','','.50','','.60','','.70','','.80','','.90','','1'})
-plot(t/1000,avert2,'LineWidth',4, 'color','r')
-plot(t/1000,avert3,'LineWidth',4,'color','k')
+plot(t/1000,avert1,'LineWidth',3, 'color','b')
+plot(t/1000,avert2,'LineWidth',3, 'color','r')
+plot(t/1000,avert3,'LineWidth',3,'color','k')
+legend('1 meter','2 meter','3 meter')
 hold off
 
 
 figure;
 plot(t/1000,detrendrt1,'LineWidth',4)
-title('Weighted Gaussian Average and Scatter Plot')
+title('Detrend Weighted Gaussian Average')
 xlabel('Cue-Time Interval (s)')
 ylabel('Reaction Time (s)')
 xlim([.4 1])
@@ -158,13 +159,13 @@ Y3=fft(detrendrt3,601);
 Pyy3=Y3.*conj(Y3)/601;
 
 figure;
-plot(f,Pyy1(1:128))
-xlim([2 20]);
+plot(f,Pyy1(1:128),'LineWidth',4)
+xlim([4 25]);
 title('Power spectral density')
 xlabel('Frequency (HZ)')
 hold on
-plot(f,Pyy2(1:128))
-plot(f,Pyy3(1:128))
+plot(f,Pyy2(1:128),'LineWidth',4)
+plot(f,Pyy3(1:128),'LineWidth',4)
 legend('1 meter','2 meter','3 meter')
 hold off
 
@@ -174,6 +175,10 @@ RtMat=[detrendrt1;detrendrt2;detrendrt3];
 figure;
 pcolor(t/1000,xdist,RtMat)
 shading interp
+title('raw Heat Map')
+xlabel('Interstim Time (s)')
+ylabel('Depth (m)')
+
 colormap(jet)
 
 
