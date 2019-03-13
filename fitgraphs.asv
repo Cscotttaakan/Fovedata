@@ -64,21 +64,21 @@ jd=1;
 
 
 for i= 1:+1:column_size1
-   if(rt1(i,1)/1000000>.15) && (rt1(i,1)/1000000<.30)
+   if(rt1(i,1)/1000000>.1) && (rt1(i,1)/1000000<.30)
       newrt1(jb,1)=rt1(i,1)/1000000;
       newot1(jb,1)=interstim1(i,1)/1000000;
       jb=jb+1;
   end
 end
 for i= 1:+1:column_size2
-   if(rt2(i,1)/1000000>.15) && (rt2(i,1)/1000000<.30)
+   if(rt2(i,1)/1000000>.1) && (rt2(i,1)/1000000<.30)
       newrt2(jc,1)=rt2(i,1)/1000000;
       newot2(jc,1)=interstim2(i,1)/1000000;
       jc=jc+1;
   end
 end
 for i= 1:+1:column_size3
-   if(rt3(i,1)/1000000>.15) && (rt3(i,1)/1000000<.30)
+   if(rt3(i,1)/1000000>.1) && (rt3(i,1)/1000000<.30)
       newrt3(jd,1)=rt3(i,1)/1000000;
       newot3(jd,1)=interstim3(i,1)/1000000;
       jd=jd+1;
@@ -119,19 +119,19 @@ detrendrt3=detrend(avert3);
 
 
 figure;
-plot(t/1000,avert1,'LineWidth',4, 'color','b')
+plot(t/1000,avert1,'LineWidth',4)
 title('Weighted Gaussian Average and Scatter Plot')
 xlabel('Cue-Time Interval (s)')
 ylabel('Reaction Time (s)')
 xlim([.4 1])
 hold on
-scatter(interstim1,rt1, 36, 'b')
-scatter(interstim2,rt2, 36, 'r')
-scatter(interstim3,rt3, 36, 'k')
+scatter(interstim1,rt1, 'Color', ])
+scatter(interstim2,rt2)
+scatter(interstim3,rt3)
 %xticks([.3 .35 .4 .45 .5 .55 .6 .65 .7 .75 .8 .85 .9 .95 1])
 %xticklabels({'.30','','.40','','.50','','.60','','.70','','.80','','.90','','1'})
-plot(t/1000,avert2,'LineWidth',4, 'color','r')
-plot(t/1000,avert3,'LineWidth',4,'color','k')
+plot(t/1000,avert2,'LineWidth',4)
+plot(t/1000,avert3,'LineWidth',4)
 hold off
 
 
@@ -174,42 +174,5 @@ RtMat=[detrendrt1;detrendrt2;detrendrt3];
 figure;
 pcolor(t/1000,xdist,RtMat)
 shading interp
-colormap(jet)
-
-
-frequencies=2:1:25;
-for i=1:length(frequencies)
-    fig=figure(10);
-   [b,a] = butter(3,[frequencies(i)*0.8/(1000/2) (frequencies(i)*1.2)/(1000/2)]');
-   
-   movFiltmin1=filtfilt(b,a,detrendrt1);
-   movFiltmin2=filtfilt(b,a,detrendrt2);
-   movFiltmin3=filtfilt(b,a,detrendrt3);
-   
-   movFiltMap=[movFiltmin1;movFiltmin2;movFiltmin3];
-
-    pcolor(t/1000,xdist,movFiltMap)
-    shading interp
-    xlabel('time(s)')
-    ylabel('Depth')
-    title(strcat('Heat Map: f=',num2str(frequencies(i)),'Hz'))
-    colormap(jet)
-
-   
-   F(i)=getframe(gcf);
-   
-end
- writerObj = VideoWriter('HEAT_MAP_FOURIER_DECOMP.avi');
- writerObj.FrameRate =1;
- open(writerObj);
-
-for i=1:length(F)
-    % convert the image to a frame
-    frame = F(i) ;    
-    writeVideo(writerObj, frame);
-end
-% close the writer object
-close(writerObj);
-
 end
 
